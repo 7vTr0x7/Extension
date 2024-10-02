@@ -1,26 +1,42 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-import "./App.css";
+const App = () => {
+  const [language, setLanguage] = useState("es"); // Default to Spanish
 
-function App() {
-  const [count, setCount] = useState(0);
+  const handleTranslate = () => {
+    // Send message to content script to translate the page
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.scripting.executeScript({
+        target: { tabId: tabs[0].id },
+        function: translatePage, // Calls the translate function inside the content script
+        args: [language],
+      });
+    });
+  };
 
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="p-4">
+      <h2 className="text-lg font-bold mb-2">WhatsApp Web Translator</h2>
+      <label htmlFor="language" className="block mb-2">
+        Choose Language:
+      </label>
+      <select
+        id="language"
+        className="border p-2 w-full"
+        value={language}
+        onChange={(e) => setLanguage(e.target.value)}>
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+        {/* Add more language options as needed */}
+      </select>
+      <button
+        className="mt-4 bg-blue-500 text-white px-4 py-2"
+        onClick={handleTranslate}>
+        Translate Page
+      </button>
+    </div>
   );
-}
+};
 
 export default App;
