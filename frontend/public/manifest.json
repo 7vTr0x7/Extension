@@ -1,12 +1,19 @@
 {
   "manifest_version": 3,
-
-  "name": "WA Translator Extension",
-  "description": "What's App Translator Extension",
+  "name": "WhatsApp Web Translator",
   "version": "1.0",
-
+  "description": "Translate WhatsApp chats",
+  "permissions": ["activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://web.whatsapp.com/*"],
+      "js": ["contentScript.js"]
+    }
+  ],
   "action": {
     "default_popup": "index.html"
-  },
-  "permissions": ["tabs"]
+  }
 }
