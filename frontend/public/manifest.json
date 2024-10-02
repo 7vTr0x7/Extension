@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+
+  "name": "WA Translator Extension",
+  "description": "What's App Translator Extension",
+  "version": "1.0",
+
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["tabs"]
+}
